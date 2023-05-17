@@ -1,9 +1,13 @@
-.signup {
-  position: relative;
+.nabvar {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;
+  padding-top: 10px;
 }
 
-.home-button {
-  position: absolute;
+.nabvar-button {
+  height: 40px;
+  width: 84px;
   top: 10px;
   right: 10px;
   background-color: #333;
@@ -14,7 +18,11 @@
   transition: transform 0.3s, background-color 0.3s;
 }
 
-.home-button:hover {
+.nabvar-button:hover {
   transform: scale(1.1);
   background-color: #ff9900;
+}
+
+a{
+  margin-right: 10px;
 }

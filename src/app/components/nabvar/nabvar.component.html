@@ -1,3 +1,7 @@
-<div class="signup">
-    <a href="/" class="home-button">Home</a>
+<div class="nabvar">
+    <img *ngIf="!isSignupRoute()" [src]="'assets/images/logo.jpg'" alt="image">
+
+    <a *ngIf="!isHomeRoute()" href="/" class="nabvar-button">Home</a>
+    <a *ngIf="!isSignupRoute()" href="/signup" class="nabvar-button">Signup</a>
+    <a *ngIf="!isLoginRoute()" href="/login" class="nabvar-button">Login</a>
 </div>
