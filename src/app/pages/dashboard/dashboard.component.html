@@ -1,0 +1,28 @@
+<div class="dashboard">
+    <h1>Bienvenido</h1>
+    <div class="options">
+        <button (click)="goToRegisterVehicle()">Registrar Vehículo</button>
+        <button (click)="goToRequestService()">Solicitar Servicio</button>
+    </div>
+</div>
+
+<div *ngIf="showForm" class="formulario-registro">
+    <h2>Registro de vehículo</h2>
+    <form (ngSubmit)="registerVehicle()">
+        <label for="brand">Marca:</label>
+        <input type="text" id="brand" name="brand" placeholder="Ingrese la marca" [(ngModel)]="vehicleData.brand">
+
+        <label for="model">Modelo:</label>
+        <input type="text" id="model" name="model" placeholder="Ingrese el modelo" [(ngModel)]="vehicleData.model">
+
+        <label for="year">Año:</label>
+        <input type="text" id="year" name="year" placeholder="Ingrese el año" [(ngModel)]="vehicleData.year">
+
+        <label for="plateNumber">Número de placa:</label>
+        <input type="text" id="plateNumber" name="plateNumber" placeholder="Ingrese el número de placa"
+            [(ngModel)]="vehicleData.plate_number">
+
+        <button type="submit">Registrar</button>
+    </form>
+</div>
+<app-list-vehicle></app-list-vehicle>

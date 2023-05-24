@@ -15,6 +15,11 @@ import { NabvarComponent } from './components/nabvar/nabvar.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { ListServicesComponent } from './components/list-services/list-services.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { VehicleService } from './pages/dashboard/VehicleService/vehicle.service';
+import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.component';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +28,9 @@ import { HomeComponent } from './components/home/home.component';
     SignupComponent,
     LoginComponent,
     HomeComponent,
+    ListServicesComponent,
+    DashboardComponent,
+    ListVehicleComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +40,9 @@ import { HomeComponent } from './components/home/home.component';
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule, // Agrega FormsModule en la lista de imports
+    FormsModule, 
   ],
-  providers: [],
+   providers: [VehicleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

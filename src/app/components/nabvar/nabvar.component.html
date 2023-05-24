@@ -5,7 +5,9 @@
 
     <div class="nabvar-container-button">
         <a *ngIf="!isHomeRoute()" href="/" class="nabvar-button">Home</a>
-        <a *ngIf="!isSignupRoute()" href="/signup" class="nabvar-button">Signup</a>
-        <a *ngIf="!isLoginRoute()" href="/login" class="nabvar-button">Login</a>
+        <a *ngIf="!isSignupRoute() && !isLoggedIn()" href="/signup" class="nabvar-button">Signup</a>
+        <a *ngIf="!isLoginRoute() && !isLoggedIn()" href="/login" class="nabvar-button">Login</a>
+        <button *ngIf="isLoggedIn()" (click)="logout()" class="nabvar-button">Cerrar Sesión</button>
     </div>
+
 </div>

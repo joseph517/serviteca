@@ -1,61 +1,84 @@
-import { UserService } from 'src/app/services/user.service';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators} from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-@NgModule({
-  imports: [
-    FormsModule
-    // Otros módulos importados aquí
-  ],
-  declarations: [
-    // Componentes declarados aquí
-  ]
-})
-export class SignupModule { }
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
+  userName = '';
+  name = '';
+  lastName = '';
+  email = '';
+  phoneNumber = '';
+  password = '';
 
-  constructor(private userService: UserService) {}
+  phoneExists = false;
+  userNameExists = false;
+  emailExists = false;
 
-  ngOnInit(): void {
-    // Aquí puedes agregar la lógica que deseas ejecutar cuando el componente se inicia
+  constructor(private http: HttpClient) { }
+
+  registerUser() {
+    const userData = {
+      user_name: this.userName,
+      name: this.name,
+      last_name: this.lastName,
+      email: this.email,
+      number_phone: this.phoneNumber,
+      password: this.password
+    };
+
+    this.http.post('http://localhost:8000/api/client/create/', userData)
+      .subscribe(
+        response => {
+          alert('Usuario creado exitosamente');
+          this.clearFields();
+        },
+        (error: HttpErrorResponse) => {
+          console.log('Código de error:', error.status, ', mensaje:', error.error);
+          if (error.status === 400) {
+            this.phoneExists = error.error.number_phone ? true : false;
+            this.userNameExists = error.error.user_name ? true : false;
+            this.emailExists = error.error.email ? true : false;
+          } else {
+            alert('Error interno del servidor. Por favor, intenta nuevamente más tarde.');
+          }
+        }
+      );
   }
 
-  public user = {
-    username: '',
-    password: '',
-    nombre: '',
-    apellido: '',
-    email: '',
-    telefono: '',
-    placa:  '',
-    marca:  '',
-    color:  '',
-    modelo:  '',
-    enabled: ''
-  };
+  clearFields() {
+    this.userName = '';
+    this.name = '';
+    this.lastName = '';
+    this.email = '';
+    this.phoneNumber = '';
+    this.password = '';
 
-  formSubmit(): void {
-    console.log(this.user);
-    if (this.user.username === '' || this.user.username === null) {
-      alert('El nombre de usuario es requerido');
-      return;
+    this.phoneExists = false;
+    this.userNameExists = false;
+    this.emailExists = false;
+  }
+
+  clearError(fieldName: string) {
+    if (fieldName === 'userName') {
+      this.userNameExists = false;
+    } else if (fieldName === 'email') {
+      this.emailExists = false;
+    } else if (fieldName === 'phoneNumber') {
+      this.phoneExists = false;
     }
-    this.userService.añadirUsuario(this.user).subscribe(
-      (data) => {
-        console.log(data);
-        alert('Usuario guardado con éxito');
-      },
-      (error) => {
-        console.log(error);
-        alert('Ha ocurrido un error en el sistema');
-      }
-    );
   }
+
+  validatePhoneNumber(event: KeyboardEvent) {
+  const allowedKeys = ['+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' '];
+
+  const keyPressed = event.key;
+
+  if (!allowedKeys.includes(keyPressed) && keyPressed !== 'Backspace') {
+    event.preventDefault();
+  }
+}
 }

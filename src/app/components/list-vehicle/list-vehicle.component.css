@@ -1,0 +1,46 @@
+.vehicle-list {
+  margin-top: 20px;
+}
+
+.list-container {
+  box-shadow: 4px 2px 4px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+ul{
+  list-style: none;
+}
+.vehicle-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.vehicle-details {
+  text-align: center;
+}
+
+.vehicle-details h3 {
+  margin-bottom: 5px;
+}
+
+.vehicle-details button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.vehicle-info button {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
