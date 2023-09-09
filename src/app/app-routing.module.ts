@@ -6,13 +6,13 @@ import { HomeComponent } from './components/home/home.component';
 import { ListServicesComponent } from './components/list-services/list-services.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
-import { AuthGuard } from 'src/utils/auth.guard';
+import { AuthGuard, IsLogged } from 'src/utils/auth.guard';
 
 const routes: Routes = [
   { path: '' , component: HomeComponent},
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'list_services', component: ListServicesComponent },
+  { path: 'signup', component: SignupComponent, canActivate: [IsLogged] },
+  { path: 'login', component: LoginComponent, canActivate: [IsLogged]  },
+  { path: 'list_services', component: ListServicesComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   // { path: '**', redirectTo: '/dashboard' },
