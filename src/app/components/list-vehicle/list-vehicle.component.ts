@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from 'src/app/services/VehicleService/vehicle.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDeleteComponent } from '../alert-delete/alert-delete.component';
 
 @Component({
   selector: 'app-list-vehicle',
@@ -11,11 +13,12 @@ export class ListVehicleComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.fetchUserVehicles();
-    this.vehicleService.vehicleRegistered$.subscribe(() => {
+    this.vehicleService.vehicleUpdate$.subscribe(() => {
       this.fetchUserVehicles();
     });
   }
@@ -31,15 +34,10 @@ export class ListVehicleComponent implements OnInit {
     );
   }
 
-  deleteVehicle(id:number){
-  this.vehicleService.deleteVehicle(id).subscribe(
-    (Response) =>{
-        this.fetchUserVehicles();
-    },
-    (error) => {
-      console.error(error)
-    }
-  )
+  openDialog(idVehicle:Number){
+    this.dialog.open(AlertDeleteComponent,{
+      data: idVehicle = idVehicle
+    })
   }
 
 }

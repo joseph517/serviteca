@@ -17,16 +17,15 @@ export class VehicleService {
   private vehiclesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public vehicles$: Observable<any[]> = this.vehiclesSubject.asObservable();
 
-  private vehicleRegisteredSource = new Subject<void>();
-  vehicleRegistered$ = this.vehicleRegisteredSource.asObservable();
+  private vehicleUpdate = new Subject<void>();
+  vehicleUpdate$ = this.vehicleUpdate.asObservable();
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
   ) { }
 
-  notifyVehicleRegistered() {
-    this.vehicleRegisteredSource.next();
+  notifyVehicleUpdate() {
+    this.vehicleUpdate.next();
   }
 
   registerVehicle(vehicleData: any) {
@@ -38,7 +37,7 @@ export class VehicleService {
           // alert('Vehículo registrado exitosamente');
           this.onVehicleRegistered(response);
           this.getUserVehicles();
-          this.notifyVehicleRegistered();
+          this.notifyVehicleUpdate();
         },
         error => {
           console.error(error);
@@ -81,14 +80,13 @@ export class VehicleService {
     }
   }
 
-  deleteVehicle(id: number): Observable<any> {
+  deleteVehicle(idVehicle: number): Observable<any> {
     const token = localStorage.getItem('access_token')
     const headers = new HttpHeaders({
       'content-type': 'application/json',
       Authorization: `Bearer ${token}`
     })
-    const url = `${this.apiUrlVehicle}delete/${id}/`
-    console.log(url)
+    const url = `${this.apiUrlVehicle}delete/${idVehicle}/`
     return this.http.delete<any>(url, { headers })
   }
 

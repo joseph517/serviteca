@@ -4,12 +4,15 @@ import { FormsModule } from '@angular/forms'; // Importa FormsModule desde @angu
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule, } from '@angular/material/dialog'
+import {MatCardModule} from '@angular/material/card';
+
 
 import { NabvarComponent } from './components/nabvar/nabvar.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -19,6 +22,7 @@ import { ListServicesComponent } from './components/list-services/list-services.
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { VehicleService } from './services/VehicleService/vehicle.service';
 import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.component';
+import { AlertDeleteComponent } from './components/alert-delete/alert-delete.component';
 
 
 @NgModule({
@@ -31,6 +35,7 @@ import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.com
     ListServicesComponent,
     DashboardComponent,
     ListVehicleComponent,
+    AlertDeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,10 @@ import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.com
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatDialogModule,
+    MatCardModule,
   ],
+  // entryComponents:[AlertDeleteComponent],
    providers: [VehicleService],
   bootstrap: [AppComponent]
 })
