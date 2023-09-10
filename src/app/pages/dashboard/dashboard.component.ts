@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
     this.userId = this.authService.getUserIdFromToken();
   }
 
-  goToRegisterVehicle() {
+  showFormRegisterVehicle() {
     this.showForm = true;
   }
 
@@ -43,26 +43,9 @@ export class DashboardComponent implements OnInit {
 
   registerVehicle() {
     const userId = this.authService.getUserIdFromToken();
-    if (userId) {
-      this.vehicleData.client = Number(userId);
-      const headers = this.getHeaders();
-
-      this.http
-        .post<any>('http://localhost:8000/api/vehicle/create/', this.vehicleData, { headers })
-        .subscribe(
-          response => {
-            // alert('Vehículo registrado exitosamente');
-            this.vehicleService.onVehicleRegistered(response);
-            this.resetForm();
-            this.vehicleService.getUserVehicles();
-            this.vehicleService.notifyVehicleRegistered();
-          },
-          error => {
-            console.error(error);
-            alert('Error al registrar el vehículo');
-          }
-        );
-    }
+    this.vehicleData.client = Number(userId)
+    this.vehicleService.registerVehicle(this.vehicleData)
+    this.resetForm()
   }
 
   resetForm() {
@@ -74,17 +57,6 @@ export class DashboardComponent implements OnInit {
       year: null,
       plate_number: ''
     };
-  }
-
-  private getHeaders() {
-    const token = localStorage.getItem('access_token');
-    const headersConfig: { [header: string]: string | string[] } = {
-      'Content-Type': 'application/json'
-    };
-    if (token) {
-      headersConfig['Authorization'] = `Bearer ${token}`;
-    }
-    return headersConfig;
   }
 
 }

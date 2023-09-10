@@ -22,16 +22,40 @@ export class VehicleService {
 
   constructor(
     private http: HttpClient,
-    private authService : AuthService
+    private authService: AuthService
   ) { }
 
   notifyVehicleRegistered() {
     this.vehicleRegisteredSource.next();
   }
 
-  registerVehicle(vehicleData: any): Observable<any> {
+  registerVehicle(vehicleData: any) {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiUrlVehicle}create/`, vehicleData, { headers });
+    this.http
+      .post<any>('http://localhost:8000/api/vehicle/create/', vehicleData, { headers })
+      .subscribe(
+        response => {
+          // alert('Vehículo registrado exitosamente');
+          this.onVehicleRegistered(response);
+          this.getUserVehicles();
+          this.notifyVehicleRegistered();
+        },
+        error => {
+          console.error(error);
+          alert('Error al registrar el vehículo');
+        }
+      );
+  }
+
+  private getHeaders() {
+    const token = localStorage.getItem('access_token');
+    const headersConfig: { [header: string]: string | string[] } = {
+      'Content-Type': 'application/json'
+    };
+    if (token) {
+      headersConfig['Authorization'] = `Bearer ${token}`;
+    }
+    return headersConfig;
   }
 
   onVehicleRegistered(vehicle: any) {
@@ -40,18 +64,6 @@ export class VehicleService {
     this.vehiclesSubject.next(updatedVehicles);
   }
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('access_token');
-    const userId = this.authService.getUserIdFromToken();
-    const headersConfig: { [header: string]: string | string[] } = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    };
-    if (userId !== null) {
-      headersConfig['user_id'] = userId.toString();
-    }
-    return new HttpHeaders(headersConfig);
-  }
   getUserVehicles(): Observable<any[]> {
     const userId = localStorage.getItem('user_id');
     const token = localStorage.getItem('access_token');
@@ -69,7 +81,7 @@ export class VehicleService {
     }
   }
 
-  deleteVehicle(id:number): Observable<any>{
+  deleteVehicle(id: number): Observable<any> {
     const token = localStorage.getItem('access_token')
     const headers = new HttpHeaders({
       'content-type': 'application/json',
