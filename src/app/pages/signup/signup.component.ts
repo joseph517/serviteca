@@ -33,7 +33,7 @@ export class SignupComponent {
     this.http.post('http://localhost:8000/api/client/create/', userData)
       .subscribe(
         response => {
-          alert('Usuario creado exitosamente');
+          // alert('Usuario creado exitosamente');
           this.clearFields();
         },
         (error: HttpErrorResponse) => {

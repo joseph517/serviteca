@@ -1,40 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { AuthService } from 'src/utils/auth.service';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
-  private apiUrl = 'http://localhost:8000/api/vehicle/';
+
+  vehicles: any[] = [];
+
+  private apiUrlVehicle = 'http://localhost:8000/api/vehicle/';
 
   private vehiclesSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public vehicles$: Observable<any[]> = this.vehiclesSubject.asObservable();
 
+  private vehicleRegisteredSource = new Subject<void>();
+  vehicleRegistered$ = this.vehicleRegisteredSource.asObservable();
+
   constructor(
     private http: HttpClient,
     private authService : AuthService
-  ) {
-    this.fetchVehicles();
-  }
+  ) { }
 
-  fetchVehicles() {
-    const headers = this.getHeaders();
-    this.http.get<any[]>(`${this.apiUrl}user_list/`, { headers }).subscribe(
-      response => {
-        this.vehiclesSubject.next(response);
-      },
-      error => {
-        console.error(error);
-      }
-    );
+  notifyVehicleRegistered() {
+    this.vehicleRegisteredSource.next();
   }
 
   registerVehicle(vehicleData: any): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.post<any>(`${this.apiUrl}create/`, vehicleData, { headers });
+    return this.http.post<any>(`${this.apiUrlVehicle}create/`, vehicleData, { headers });
   }
 
   onVehicleRegistered(vehicle: any) {
@@ -63,7 +60,7 @@ export class VehicleService {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       });
-      const url = `${this.apiUrl}user_list/?user_id=${userId}`;
+      const url = `${this.apiUrlVehicle}user_list/?user_id=${userId}`;
       return this.http.get<any[]>(url, { headers });
     } else {
       return new Observable<any[]>(observer => {
@@ -71,4 +68,16 @@ export class VehicleService {
       });
     }
   }
+
+  deleteVehicle(id:number): Observable<any>{
+    const token = localStorage.getItem('access_token')
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+      Authorization: `Bearer ${token}`
+    })
+    const url = `${this.apiUrlVehicle}delete/${id}/`
+    console.log(url)
+    return this.http.delete<any>(url, { headers })
+  }
+
 }

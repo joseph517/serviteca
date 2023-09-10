@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VehicleService } from 'src/app/pages/dashboard/VehicleService/vehicle.service'; 
+import { VehicleService } from 'src/app/pages/dashboard/VehicleService/vehicle.service';
 
 @Component({
   selector: 'app-list-vehicle',
@@ -9,20 +9,37 @@ import { VehicleService } from 'src/app/pages/dashboard/VehicleService/vehicle.s
 export class ListVehicleComponent implements OnInit {
   vehicles: any[] = [];
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(
+    private vehicleService: VehicleService,
+  ) { }
 
   ngOnInit() {
     this.fetchUserVehicles();
+    this.vehicleService.vehicleRegistered$.subscribe(() => {
+      this.fetchUserVehicles();
+    });
   }
 
   fetchUserVehicles() {
     this.vehicleService.getUserVehicles().subscribe(
-      response => {
+      (response) => {
         this.vehicles = response;
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
   }
+
+  deleteVehicle(id:number){
+  this.vehicleService.deleteVehicle(id).subscribe(
+    (Response) =>{
+        this.fetchUserVehicles();
+    },
+    (error) => {
+      console.error(error)
+    }
+  )
+  }
+
 }

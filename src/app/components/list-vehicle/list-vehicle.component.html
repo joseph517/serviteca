@@ -10,7 +10,7 @@
                     <div class="vehicle-details">
                         <p>Número de Placa: {{ vehicle.plate_number }}</p>
                     </div>
-                    <button>Eliminar</button>
+                    <button (click)="deleteVehicle(vehicle.id)">Eliminar</button>
                 </div>
             </li>
         </ul>

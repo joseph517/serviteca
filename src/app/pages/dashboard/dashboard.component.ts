@@ -26,12 +26,11 @@ export class DashboardComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private vehicleService: VehicleService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
     this.userId = this.authService.getUserIdFromToken();
-    this.fetchUserVehicles();
   }
 
   goToRegisterVehicle() {
@@ -42,37 +41,21 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/request-service']);
   }
 
-  fetchUserVehicles() {
-    const headers = this.getHeaders();
-    this.http
-      .get<any[]>(`http://localhost:8000/api/vehicle/user_list/`, { headers })
-      .subscribe(
-        response => {
-          this.vehicles = response;
-        },
-        error => {
-          console.error(error);
-          alert('Error al obtener los vehículos del usuario');
-        }
-      );
-  }
-
   registerVehicle() {
     const userId = this.authService.getUserIdFromToken();
     if (userId) {
       this.vehicleData.client = Number(userId);
-
       const headers = this.getHeaders();
 
       this.http
         .post<any>('http://localhost:8000/api/vehicle/create/', this.vehicleData, { headers })
         .subscribe(
           response => {
-            console.log(response);
-            alert('Vehículo registrado exitosamente');
+            // alert('Vehículo registrado exitosamente');
             this.vehicleService.onVehicleRegistered(response);
             this.resetForm();
-            this.vehicleService.fetchVehicles();
+            this.vehicleService.getUserVehicles();
+            this.vehicleService.notifyVehicleRegistered();
           },
           error => {
             console.error(error);
@@ -103,4 +86,5 @@ export class DashboardComponent implements OnInit {
     }
     return headersConfig;
   }
+
 }
