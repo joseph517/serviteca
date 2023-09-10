@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VehicleService } from 'src/app/pages/dashboard/VehicleService/vehicle.service';
+import { VehicleService } from 'src/app/services/VehicleService/vehicle.service';
 
 @Component({
   selector: 'app-list-vehicle',

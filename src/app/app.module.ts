@@ -17,7 +17,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListServicesComponent } from './components/list-services/list-services.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { VehicleService } from './pages/dashboard/VehicleService/vehicle.service';
+import { VehicleService } from './services/VehicleService/vehicle.service';
 import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.component';
 
 
@@ -40,7 +40,7 @@ import { ListVehicleComponent } from './components/list-vehicle/list-vehicle.com
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule, 
+    FormsModule,
   ],
    providers: [VehicleService],
   bootstrap: [AppComponent]

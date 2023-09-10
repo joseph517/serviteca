@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VehicleService } from './VehicleService/vehicle.service';
+import { VehicleService } from '../../services/VehicleService/vehicle.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/utils/auth.service';
 
